@@ -1,0 +1,140 @@
+package by.eshop.repository.impl;
+
+import by.eshop.domain.Buyer;
+import by.eshop.repository.BuyerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+@Repository
+@Primary
+public class JdbcTamplateBuyerRepository implements BuyerRepository {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+//    public static final String LOGIN = "login";
+//    public static final String PASSWORD = "password";
+//    public static final String NAME = "name";
+//    public static final String SURNAME = "surname";
+//    public static final String BIRTH_DATE = "birth_date";
+//    public static final String PHONE = "phone";
+//    public static final String EMAIL = "email";
+//    public static final String POSTAL_CODE = "postal_code";
+//    public static final String CITY = "city";
+//    public static final String ADDRESS = "address";
+
+    @Override
+    public List<Buyer> findAll() {
+        return jdbcTemplate.query("select * from buyer", this::getBuyerRowMapper);
+    }
+
+    private Buyer getBuyerRowMapper(ResultSet rs, int i) throws SQLException{
+        Buyer buyer = new Buyer();
+        buyer.setId(rs.getLong("id"));
+        buyer.setLogin(rs.getString("login"));
+        buyer.setPassword(rs.getString("password"));
+        buyer.setName(rs.getString("name"));
+        buyer.setSurname(rs.getString("surname"));
+        buyer.setBirthDate(rs.getDate("birth_date"));
+        buyer.setPhone(rs.getString("phone"));
+        buyer.setEmail(rs.getString("email"));
+        buyer.setPostal_code(rs.getInt("postal_code"));
+        buyer.setCity(rs.getString("city"));
+        buyer.setAddress(rs.getString("address"));
+        return buyer;
+    }
+
+    @Override
+    public Buyer findOne(Long id) {
+        final String findOneWithWildcard = "select * from buyer where id = ?";
+        return jdbcTemplate.queryForObject(findOneWithWildcard, this::getBuyerRowMapper, id);
+
+// another way:
+//        final String findOneWithNamedParam = "select * from buyer where id = :id";
+//        MapSqlParameterSource params = new MapSqlParameterSource();
+//        params.addValue("id", id);
+//        return namedParameterJdbcTemplate.queryForObject(findOneWithNamedParam, params, this::getBuyerRowMapper);
+    }
+
+    @Override
+    public Buyer save(Buyer buyer) {
+        final String creatQuery = "insert into buyer (login, password, name, surname, birth_date, phone, email, " +
+                "postal_code, city, address) values (:login, :password, :name, :surname, :birthDate, :phone, " +
+                ":email, :postal_code, :city, :address);";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        MapSqlParameterSource params = generateUserParamsMap(buyer);
+
+        namedParameterJdbcTemplate.update(creatQuery, params, keyHolder, new String[]{"id"});
+
+        long createdUserId = Objects.requireNonNull(keyHolder.getKey().longValue());
+        return findOne(createdUserId);
+    }
+
+    private MapSqlParameterSource generateUserParamsMap(Buyer buyer){
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("login", buyer.getLogin());
+        params.addValue("password", buyer.getPassword());
+        params.addValue("name", buyer.getName());
+        params.addValue("surname", buyer.getSurname());
+        params.addValue("birthDate", new Date(buyer.getBirthDate().getTime()));
+        params.addValue("phone", buyer.getPhone());
+        params.addValue("email", buyer.getEmail());
+        params.addValue("postal_code", buyer.getPostal_code());
+        params.addValue("city", buyer.getCity());
+        params.addValue("address", buyer.getAddress());
+        return params;
+    }
+
+    @Override
+    public Buyer update(Buyer buyer) {
+        final String updateQuery = "UPDATE buyer SET login = :login, password = :password, name = :name, surname = :surname," +
+                "birth_date = :birthDate, phone = :phone, email = :email, postal_code = :postal_code, city = :city, " +
+                "address = :address WHERE id = " + buyer.getId();
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        MapSqlParameterSource params = generateUserParamsMap(buyer);
+
+        namedParameterJdbcTemplate.update(updateQuery, params, keyHolder, new String[]{"id"});
+
+        long createdUserId = Objects.requireNonNull(keyHolder.getKey().longValue());
+        return findOne(createdUserId);
+    }
+
+    @Override
+    public void delete(Long id) {
+        final String deleteQuery = "DELETE FROM buyer WHERE id = ?";
+        jdbcTemplate.update(deleteQuery, id);
+    }
+
+    @Override
+    public void batchInsert(List<Buyer> buyers) {
+        final String creatQuery = "insert into buyer (login, password, name, surname, birth_date, phone, email, " +
+                "postal_code, city, address) values (:login, :password, :name, :surname, :birthDate, :phone, " +
+                ":email, :postal_code, :city, :address);";
+
+        List<MapSqlParameterSource> batchParams = new ArrayList<>();
+
+        for (Buyer buyer : buyers){
+            batchParams.add(generateUserParamsMap(buyer));
+        }
+
+        namedParameterJdbcTemplate.batchUpdate(creatQuery, batchParams.toArray(new MapSqlParameterSource[0]));
+    }
+}

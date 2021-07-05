@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <context:component-scan base-package="by.eshop"/>
+
+<!--    <bean id="buyer1Date" class="java.sql.Date">-->
+<!--        <constructor-arg index="0" value="1998" />-->
+<!--        <constructor-arg index="1" value="10" />-->
+<!--        <constructor-arg index="2" value="20" />-->
+<!--    </bean>-->
+
+    <bean id="buyer1" class="by.eshop.domain.Buyer">
+        <constructor-arg index="0" value="6" type="java.lang.Long"/>
+        <constructor-arg index="1" value="buyerLogin06"/>
+        <constructor-arg index="2" value="buyerPassword06"/>
+        <constructor-arg index="3" value="buyerName06"/>
+        <constructor-arg index="4" value="buyerSurname06"/>
+        <constructor-arg index="5">
+            <bean class="java.sql.Date">
+                <constructor-arg value="98" />
+                <constructor-arg value="10" />
+                <constructor-arg value="20" />
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="6" value="+375331001011"/>
+        <constructor-arg index="7" value="buyer06@mail.com"/>
+        <constructor-arg index="8" value="220000"/>
+        <constructor-arg index="9" value="Minsk"/>
+        <constructor-arg index="10" value="Lenina 3"/>
+    </bean>
+
+    <bean id="buyer2" class="by.eshop.domain.Buyer">
+        <constructor-arg index="0" value="11" type="java.lang.Long"/>
+        <constructor-arg index="1" value="SpringBayerName2"/>
+        <constructor-arg index="2" value="SpringBayerSurname2"/>
+    </bean>
+
+</beans>
