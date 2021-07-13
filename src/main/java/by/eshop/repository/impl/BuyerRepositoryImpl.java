@@ -106,4 +106,9 @@ public class BuyerRepositoryImpl implements BuyerRepository {
     public void batchInsert(List<Buyer> buyers) {
 
     }
+
+    @Override
+    public List<Buyer> findBuyersByQuery(Integer limit, String query) {
+        return null;
+    }
 }

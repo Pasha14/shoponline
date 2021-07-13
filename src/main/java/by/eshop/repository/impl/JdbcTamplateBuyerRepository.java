@@ -41,7 +41,7 @@ public class JdbcTamplateBuyerRepository implements BuyerRepository {
 
     @Override
     public List<Buyer> findAll() {
-        return jdbcTemplate.query("select * from buyer", this::getBuyerRowMapper);
+        return jdbcTemplate.query("select * from buyer order by id desc", this::getBuyerRowMapper);
     }
 
     private Buyer getBuyerRowMapper(ResultSet rs, int i) throws SQLException{
@@ -136,5 +136,16 @@ public class JdbcTamplateBuyerRepository implements BuyerRepository {
         }
 
         namedParameterJdbcTemplate.batchUpdate(creatQuery, batchParams.toArray(new MapSqlParameterSource[0]));
+    }
+
+    @Override
+    public List<Buyer> findBuyersByQuery(Integer limit, String query) {
+        final String searchQuery = "select * from buyer where name like :query limit :limit";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("query", "%" + query + "%");
+        params.addValue("limit", limit);
+
+        return namedParameterJdbcTemplate.query(searchQuery, params, this::getBuyerRowMapper);
     }
 }
