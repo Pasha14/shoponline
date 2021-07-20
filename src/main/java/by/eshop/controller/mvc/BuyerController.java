@@ -1,6 +1,5 @@
 package by.eshop.controller.mvc;
 
-import by.eshop.beans.ApplicationConfig;
 import by.eshop.controller.requests.BuyerCreateRequest;
 import by.eshop.domain.Buyer;
 import by.eshop.repository.BuyerRepository;
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,19 +18,14 @@ public class BuyerController {
 
     private final BuyerRepository buyerRepository;
     private final UserGenerator userGenerator;
-    private final ApplicationConfig config;
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public ModelAndView helloHandler(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView helloHandler(){
 
-        if (request.getHeader("Secret-Key").equals(config.getSecretKey())) {
 
             List<Buyer> buyers = buyerRepository.findAll();
 
             return new ModelAndView("bye", Collections.singletonMap("buyers", buyers));
-        } else {
-            return new ModelAndView("error", Collections.emptyMap());
-        }
     }
 
     @RequestMapping(value = "/buyers", method = RequestMethod.POST)

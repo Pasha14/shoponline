@@ -9,11 +9,6 @@
 
     <context:component-scan base-package="by.eshop"/>
 
-<!--    <bean id="buyer1Date" class="java.sql.Date">-->
-<!--        <constructor-arg index="0" value="1998" />-->
-<!--        <constructor-arg index="1" value="10" />-->
-<!--        <constructor-arg index="2" value="20" />-->
-<!--    </bean>-->
 
     <bean id="buyer1" class="by.eshop.domain.Buyer">
         <constructor-arg index="0" value="6" type="java.lang.Long"/>
@@ -35,10 +30,5 @@
         <constructor-arg index="10" value="Lenina 3"/>
     </bean>
 
-    <bean id="buyer2" class="by.eshop.domain.Buyer">
-        <constructor-arg index="0" value="11" type="java.lang.Long"/>
-        <constructor-arg index="1" value="SpringBayerName2"/>
-        <constructor-arg index="2" value="SpringBayerSurname2"/>
-    </bean>
 
 </beans>

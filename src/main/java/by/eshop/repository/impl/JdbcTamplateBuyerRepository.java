@@ -2,7 +2,7 @@ package by.eshop.repository.impl;
 
 import by.eshop.domain.Buyer;
 import by.eshop.repository.BuyerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -20,13 +20,12 @@ import java.util.Objects;
 
 @Repository
 @Primary
+@RequiredArgsConstructor
 public class JdbcTamplateBuyerRepository implements BuyerRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 //    public static final String LOGIN = "login";
 //    public static final String PASSWORD = "password";

@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    hikari:
+      jdbc-url: "jdbc:postgresql://localhost:5432/shop_online"
+      maximum-pool-size: 10
+      driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    url: "jdbc:postgresql://localhost:5432/shop_online"
+    driver-class-name: org.postgresql.Driver
+
+
+#database:
+#  driverName: org.postgresql.Driver
+#  url: "jdbc:postgresql://localhost:5432/shop_online"
+#  login: postgres
+#  password: postgres
+
+
+---
+
+security:
+  secretKey: top_secret_key_hoho
+
+
+---
+
+task:
+  path: "https://www.google.com"
+  login: login
+  password: password

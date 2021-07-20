@@ -9,9 +9,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import java.sql.Date;
 import java.util.Objects;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class Buyer {
 
     private Long id;
@@ -26,11 +27,6 @@ public class Buyer {
     private String city;
     private String address;
 
-    public Buyer(Long id, String name, String surname) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-    }
 
     @Override
     public String toString() {
