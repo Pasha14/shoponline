@@ -25,7 +25,4 @@ security:
 
 ---
 
-task:
-  path: "https://www.google.com"
-  login: login
-  password: password
+

@@ -11,6 +11,8 @@ import javax.sql.DataSource;
 @Configuration
 public class ApplicationBeans {
 
+
+
 //    Эти бины сконфигурированны автоматически с помощью application.yml
 //
 //    @Bean
