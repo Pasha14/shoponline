@@ -10,11 +10,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rest/buyers")
+@RequestMapping("/buyers")
 @RequiredArgsConstructor
 public class BuyerRestController {
 
@@ -44,7 +43,7 @@ public class BuyerRestController {
     })
     @PostMapping("/generate/{buyerCount}")
     public List<Buyer> generateBuyers(@PathVariable Integer buyerCount){
-        throw new RuntimeException("Haaha!");
+        throw new RuntimeException("Haha!");
 //        List<Buyer> generatedBuyers = userGenerator.generate(buyerCount);
 //        buyerRepository.batchInsert(generatedBuyers);
 //

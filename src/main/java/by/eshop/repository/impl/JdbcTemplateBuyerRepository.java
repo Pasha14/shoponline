@@ -21,7 +21,7 @@ import java.util.Objects;
 @Repository
 @Primary
 @RequiredArgsConstructor
-public class JdbcTamplateBuyerRepository implements BuyerRepository {
+public class JdbcTemplateBuyerRepository implements BuyerRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -78,7 +78,7 @@ public class JdbcTamplateBuyerRepository implements BuyerRepository {
                 ":email, :postal_code, :city, :address);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource params = generateUserParamsMap(buyer);
+        MapSqlParameterSource params = generateBuyerParamsMap(buyer);
 
         namedParameterJdbcTemplate.update(creatQuery, params, keyHolder, new String[]{"id"});
 
@@ -86,7 +86,7 @@ public class JdbcTamplateBuyerRepository implements BuyerRepository {
         return findOne(createdUserId);
     }
 
-    private MapSqlParameterSource generateUserParamsMap(Buyer buyer){
+    private MapSqlParameterSource generateBuyerParamsMap(Buyer buyer){
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("login", buyer.getLogin());
         params.addValue("password", buyer.getPassword());
@@ -108,12 +108,12 @@ public class JdbcTamplateBuyerRepository implements BuyerRepository {
                 "address = :address WHERE id = " + buyer.getId();
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        MapSqlParameterSource params = generateUserParamsMap(buyer);
+        MapSqlParameterSource params = generateBuyerParamsMap(buyer);
 
         namedParameterJdbcTemplate.update(updateQuery, params, keyHolder, new String[]{"id"});
 
-        long createdUserId = Objects.requireNonNull(keyHolder.getKey().longValue());
-        return findOne(createdUserId);
+        long createdBuyerId = Objects.requireNonNull(keyHolder.getKey().longValue());
+        return findOne(createdBuyerId);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class JdbcTamplateBuyerRepository implements BuyerRepository {
         List<MapSqlParameterSource> batchParams = new ArrayList<>();
 
         for (Buyer buyer : buyers){
-            batchParams.add(generateUserParamsMap(buyer));
+            batchParams.add(generateBuyerParamsMap(buyer));
         }
 
         namedParameterJdbcTemplate.batchUpdate(creatQuery, batchParams.toArray(new MapSqlParameterSource[0]));

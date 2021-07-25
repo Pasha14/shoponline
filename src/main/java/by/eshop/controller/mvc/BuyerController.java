@@ -28,20 +28,20 @@ public class BuyerController {
             return new ModelAndView("bye", Collections.singletonMap("buyers", buyers));
     }
 
-    @RequestMapping(value = "/buyers", method = RequestMethod.POST)
-    public ModelAndView createBuyers(@ModelAttribute BuyerCreateRequest buyerCreateRequest) {
-
-        Buyer generatedBuyer = userGenerator.generate();
-        generatedBuyer.setLogin(buyerCreateRequest.getLogin());
-        generatedBuyer.setPassword(buyerCreateRequest.getPassword());
-        generatedBuyer.setName(buyerCreateRequest.getName());
-        generatedBuyer.setSurname(buyerCreateRequest.getSurname());
-
-        buyerRepository.save(generatedBuyer);
-
-        List<Buyer> buyers = buyerRepository.findAll();
-        return new ModelAndView("bye", Collections.singletonMap("buyers", buyers));
-    }
+//    @RequestMapping(value = "/buyers", method = RequestMethod.POST)
+//    public ModelAndView createBuyers(@ModelAttribute BuyerCreateRequest buyerCreateRequest) {
+//
+//        Buyer generatedBuyer = userGenerator.generate();
+//        generatedBuyer.setLogin(buyerCreateRequest.getLogin());
+//        generatedBuyer.setPassword(buyerCreateRequest.getPassword());
+//        generatedBuyer.setName(buyerCreateRequest.getName());
+//        generatedBuyer.setSurname(buyerCreateRequest.getSurname());
+//
+//        buyerRepository.save(generatedBuyer);
+//
+//        List<Buyer> buyers = buyerRepository.findAll();
+//        return new ModelAndView("bye", Collections.singletonMap("buyers", buyers));
+//    }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public ModelAndView buyerSearch(@RequestParam Integer limit, @RequestParam String query){
