@@ -25,4 +25,6 @@ security:
 
 ---
 
-
+jwtconfig:
+  secret: secret
+  expiration: 60000

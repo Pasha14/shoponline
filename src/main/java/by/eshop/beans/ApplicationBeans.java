@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -12,7 +13,10 @@ import javax.sql.DataSource;
 public class ApplicationBeans {
 
 
-
+    @Bean
+    public NoOpPasswordEncoder noOpPasswordEncoder() {
+        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+    }
 //    Эти бины сконфигурированны автоматически с помощью application.yml
 //
 //    @Bean

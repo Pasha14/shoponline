@@ -30,6 +30,16 @@ public class ProductRestController {
         return productRepository.findProductsByQuery(product);
     }
 
+    @GetMapping("/{category}")
+    public List<Product> findProductByCategory(@PathVariable String category){
+        return productRepository.findProductsByCategory(category);
+    }
+
+    @GetMapping("/{category}/{subcategory}")
+    public List<Product> findProductBySubcategory(@PathVariable String category, @PathVariable String subcategory){
+        return productRepository.findProductsBySubcategory(category, subcategory);
+    }
+
 
 
 }

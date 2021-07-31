@@ -102,14 +102,14 @@ public class JdbcTemplateProductRepository implements ProductRepository {
 
     @Override
     public List<Product> findProductsByCategory(String categoryName) {
-        final String searchQuery = "SELECT * FROM products JOIN (SELECT id AS cat_id FROM categories WHERE category = ?) cat on category_id = cat.cat_id;";
+        final String searchQuery = "SELECT * FROM products JOIN (SELECT id AS cat_id FROM categories JOIN category_name cn on categories.category_id = cn.id WHERE cn.category = ?) cat on category_id = cat.cat_id;";
 
         return jdbcTemplate.query(searchQuery, this::getProductRowMapper, categoryName);
     }
 
     @Override
     public List<Product> findProductsBySubcategory(String categoryName, String subcategoryName) {
-        final String searchQuery = "SELECT * FROM products WHERE category_id = (SELECT id FROM categories WHERE category = :category AND subcategory = subcategory);";
+        final String searchQuery = "SELECT * FROM products WHERE category_id = (SELECT id FROM categories WHERE category_id = (SELECT id FROM category_name WHERE category = :category) AND subcategory = :subcategory);";
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("category", categoryName);
         params.addValue("subcategory", subcategoryName);

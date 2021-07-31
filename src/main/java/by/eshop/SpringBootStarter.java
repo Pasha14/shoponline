@@ -3,6 +3,7 @@ package by.eshop;
 import by.eshop.beans.ApplicationBeans;
 import by.eshop.beans.SecurityConfig;
 import by.eshop.beans.SwaggerConfig;
+import by.eshop.security.configuration.WebSecurityConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -17,6 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Import({
         ApplicationBeans.class,
         SwaggerConfig.class,
+        WebSecurityConfiguration.class,
         SecurityConfig.class})
 public class SpringBootStarter {
     public static void main(String[] args) {

@@ -1,6 +1,7 @@
 package by.eshop.repository.impl;
 
 import by.eshop.domain.Buyer;
+import by.eshop.domain.Role;
 import by.eshop.repository.BuyerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -146,5 +147,41 @@ public class JdbcTemplateBuyerRepository implements BuyerRepository {
         params.addValue("limit", limit);
 
         return namedParameterJdbcTemplate.query(searchQuery, params, this::getBuyerRowMapper);
+    }
+
+    @Override
+    public void saveBuyerRoles(Buyer buyer, List<Role> buyerRoles) {
+        final String createQuery = "INSERT INTO buyer_roles (role_id, buyer_id) VALUES (:roleId, :buyerId)";
+
+        List<MapSqlParameterSource> batchParams = new ArrayList<>();
+        for (Role role : buyerRoles){
+            MapSqlParameterSource params = new MapSqlParameterSource();
+            params.addValue("roleId", role.getId());
+            params.addValue("buyerId", buyer.getId());
+            batchParams.add(params);
+        }
+
+        namedParameterJdbcTemplate.batchUpdate(createQuery, batchParams.toArray(new MapSqlParameterSource[0]));
+    }
+
+    @Override
+    public Buyer findByLoginAndPassword(String login, String password) {
+        final String searchQuery = "select * from buyer where login = :login AND password = :password";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("login", login);
+        params.addValue("password", password);
+
+        return namedParameterJdbcTemplate.queryForObject(searchQuery, params, this::getBuyerRowMapper);
+    }
+
+    @Override
+    public Buyer findByLogin(String login) {
+        final String searchQuery = "select * from buyer where login = :login";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("login", login);
+
+        return namedParameterJdbcTemplate.queryForObject(searchQuery, params, this::getBuyerRowMapper);
     }
 }

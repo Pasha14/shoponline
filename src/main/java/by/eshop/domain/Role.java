@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class Category {
-    private Integer id;
-    private String category;
-    private String picture;
+public class Role {
+
+    private Long id;
+    private String roleName;
 
     @Override
     public String toString() {
