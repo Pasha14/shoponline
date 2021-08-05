@@ -75,7 +75,9 @@ public class RoleRepositoryImpl implements RoleRepository {
 
     @Override
     public List<Role> getUserRoles(Buyer buyer) {
-        final String findBuyerRoles = "select r.id as id, r.role_name as role_name from buyer_roles inner join roles r on r.id = buyer_roles.role_id where buyer_roles.buyer_id = :buyerId";
+        final String findBuyerRoles
+
+                = "select r.id as id, r.role_name as role_name from buyer_roles inner join roles r on r.id = buyer_roles.role_id where buyer_roles.buyer_id = :buyerId";
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("buyerId", buyer.getId());

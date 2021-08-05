@@ -68,7 +68,7 @@ public class TokenUtils {
                 .builder()
                 .setClaims(claims)
                 .setExpiration(generateExpirationDate())
-                .signWith(SignatureAlgorithm.HS512, TextCodec.BASE64.encode(jwtConfig.getSecret()))
+                .signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret())
                 .compact();
     }
 

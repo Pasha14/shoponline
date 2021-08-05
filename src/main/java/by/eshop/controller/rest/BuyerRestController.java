@@ -1,29 +1,58 @@
 package by.eshop.controller.rest;
 
+import by.eshop.beans.SecurityConfig;
 import by.eshop.controller.requests.BuyerCreateRequest;
 import by.eshop.domain.Buyer;
 import by.eshop.repository.BuyerRepository;
+import by.eshop.security.util.PrincipalUtils;
 import by.eshop.util.UserGenerator;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/buyers")
+@RequestMapping("/rest/buyers")
 @RequiredArgsConstructor
 public class BuyerRestController {
 
     public final BuyerRepository buyerRepository;
     public final UserGenerator userGenerator;
+    private final SecurityConfig config;
+    private final PrincipalUtils principalUtils;
+
+
 
     @GetMapping
     public List<Buyer> findAll(){
         System.out.println("In rest controller");
         return buyerRepository.findAll();
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Secret-Key", dataType = "string", paramType = "header",
+            value = "Secret header for secret functionality!! Hoho"),
+    @ApiImplicitParam(name = "X-Auth-Token", value = "token", required = true, dataType = "string", paramType = "header")})
+    @GetMapping("/hello")
+    public List<Buyer> securedFindAll(HttpServletRequest request, @ApiIgnore Principal principal) {
+
+            String username = principalUtils.getUsername(principal);
+            String secretKey = request.getHeader("Secret-Key");
+
+            if (StringUtils.isNotBlank(secretKey) && secretKey.equals(config.getSecretKey())) {
+                return Collections.singletonList(buyerRepository.findByLogin(username));
+            } else {
+            //throw new UnauthorizedException();
+                return Collections.emptyList();
+            }
     }
 
     @ApiOperation(value = "Search buyers by query")
