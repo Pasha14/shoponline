@@ -10,7 +10,7 @@
     <context:component-scan base-package="by.eshop"/>
 
 
-    <bean id="buyer1" class="by.eshop.domain.Buyer">
+    <bean id="buyer1" class="by.eshop.domain.jdbctamplate.Buyer">
         <constructor-arg index="0" value="6" type="java.lang.Long"/>
         <constructor-arg index="1" value="buyerLogin06"/>
         <constructor-arg index="2" value="buyerPassword06"/>

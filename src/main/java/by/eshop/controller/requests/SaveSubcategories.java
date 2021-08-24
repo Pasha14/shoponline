@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 public class SaveSubcategories {
 
-    private Integer categoryId;
+    private Long categoryId;
     private List<String> subcategoryList;
 }

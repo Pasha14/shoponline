@@ -5,14 +5,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiOperation("Class for creating user entity")
+import java.time.LocalDateTime;
+import java.util.Date;
+
+@ApiOperation("Class for creating buyer entity")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class BuyerCreateRequest {
-    public String login;
-    public String password;
-    public String name;
-    public String surname;
+    private String login;
+    private String password;
+    private String name;
+    private String surname;
+    private LocalDateTime birthDate;
+    private String phone;
+    private String email;
+    private Integer postalCode;
+    private String city;
+    private String address;
 
 }

@@ -1,9 +1,9 @@
 package by.eshop.controller.rest;
 
-import by.eshop.domain.Buyer;
-import by.eshop.domain.Role;
-import by.eshop.repository.BuyerRepository;
-import by.eshop.repository.RoleRepository;
+import by.eshop.domain.jdbctamplate.Buyer;
+import by.eshop.domain.jdbctamplate.Role;
+import by.eshop.repository.jdbcTamplate.BuyerRepository;
+import by.eshop.repository.jdbcTamplate.RoleRepository;
 import by.eshop.security.util.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

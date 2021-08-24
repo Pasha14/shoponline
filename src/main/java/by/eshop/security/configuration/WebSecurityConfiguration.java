@@ -70,8 +70,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/guest/**").permitAll()
                 .antMatchers("/registration/**").permitAll()
                 .antMatchers("/authentication/**").permitAll()
+                .antMatchers("/hibernate/**").permitAll()
                 .antMatchers("/rest/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/rest/buyers/mod/**").hasAnyRole("ADMIN", "MODERATOR")
                 .anyRequest().authenticated();
 
         // Custom JWT based authentication

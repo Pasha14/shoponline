@@ -1,11 +1,11 @@
 package by.eshop.controller.rest;
 
-import by.eshop.beans.SecurityConfig;
 import by.eshop.controller.requests.BuyerCreateRequest;
-import by.eshop.domain.Buyer;
-import by.eshop.repository.BuyerRepository;
+import by.eshop.domain.jdbctamplate.Buyer;
+import by.eshop.repository.jdbcTamplate.BuyerRepository;
 import by.eshop.security.util.PrincipalUtils;
 import by.eshop.util.UserGenerator;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -22,12 +22,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/rest/buyers")
 @RequiredArgsConstructor
+@Api(description = "buyer controller", tags = { "Buyer" })
 public class BuyerRestController {
 
     public final BuyerRepository buyerRepository;
     public final UserGenerator userGenerator;
-    private final SecurityConfig config;
     private final PrincipalUtils principalUtils;
+
 
 
 
@@ -38,21 +39,13 @@ public class BuyerRestController {
     }
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "Secret-Key", dataType = "string", paramType = "header",
-            value = "Secret header for secret functionality!! Hoho"),
     @ApiImplicitParam(name = "X-Auth-Token", value = "token", required = true, dataType = "string", paramType = "header")})
-    @GetMapping("/hello")
+    @GetMapping("/mod/hello")
     public List<Buyer> securedFindAll(HttpServletRequest request, @ApiIgnore Principal principal) {
 
             String username = principalUtils.getUsername(principal);
-            String secretKey = request.getHeader("Secret-Key");
 
-            if (StringUtils.isNotBlank(secretKey) && secretKey.equals(config.getSecretKey())) {
-                return Collections.singletonList(buyerRepository.findByLogin(username));
-            } else {
-            //throw new UnauthorizedException();
-                return Collections.emptyList();
-            }
+            return Collections.singletonList(buyerRepository.findByLogin(username));
     }
 
     @ApiOperation(value = "Search buyers by query")

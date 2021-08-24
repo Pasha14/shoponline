@@ -2,8 +2,8 @@
 //package by.eshop.controller.mvc;
 //
 //import by.eshop.controller.requests.BuyerCreateRequest;
-//import by.eshop.domain.Buyer;
-//import by.eshop.repository.BuyerRepository;
+//import by.eshop.domain.jdbctamplate.Buyer;
+//import by.eshop.repository.jdbctamplate.BuyerRepository;
 //import by.eshop.util.UserGenerator;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.stereotype.Controller;
